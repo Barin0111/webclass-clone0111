@@ -123,10 +123,32 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
+    .spinner {
+  margin: 0 auto;
+  border: 6px solid #ccc;
+  border-top: 6px solid #004080;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
   </style>
 </head>
 <body>
   <div id="app">
+    <div v-if="loading" class="login">
+  <div class="login-box" style="text-align: center;">
+    <div class="spinner"></div>
+    <p style="margin-top: 1rem;">ログイン中...しばらくお待ちください</p>
+  </div>
+</div>
     <div v-if="!loggedIn" class="login">
       <div class="login-box">
         <h2 style="text-align:center; margin-bottom:1rem;">WebClass ログイン</h2>
@@ -214,6 +236,7 @@
       data() {
         return {
           loggedIn: false,
+          loading: false, 
           username: '',
           password: '',
           role: '学生',
@@ -233,11 +256,14 @@
         };
       },
       methods: {
-        login() {
-          this.loggedIn = true;
-          this.role = this.username.includes('teacher') ? '教員' : '学生';
-        }
-      }
+      login() {
+  this.loading = true;
+  setTimeout(() => {
+    this.loading = false;
+    this.loggedIn = true;
+    this.role = this.username.includes('teacher') ? '教員' : '学生';
+  }, 1500); // ローディング時間（ミリ秒）
+}
     }).mount('#app');
   </script>
 </body>

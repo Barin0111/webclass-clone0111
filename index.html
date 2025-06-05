@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>WebClass - みんなのいろはに大学</title>
+  <title>WebClass - あつまれのいろはに大学</title>
   <script src="https://unpkg.com/vue@3"></script>
   <style>
     html, body {
@@ -263,7 +263,7 @@
     this.loggedIn = true;
     this.role = this.username.includes('teacher') ? '教員' : '学生';
   }, 1500); // ローディング時間（ミリ秒）
-}
+}}
     }).mount('#app');
   </script>
 </body>
@@ -293,39 +293,8 @@
     </template>
   </div>
 
-  <script>
-    const { createApp } = Vue;
 
-    createApp({
-      data() {
-        return {
-          loggedIn: false,
-          username: '',
-          password: '',
-          role: '学生',
-          days: ['月', '火', '水', '木', '金'],
-          times: [
-            '8:40～10:10',
-            '10:30～12:00',
-            '13:00～14:30',
-            '14:45～16:15',
-            '16:30～18:00'
-          ],
-          schedule: [
-            { 月: { name: '数学', room: 'A101' }, 火: { name: '英語', room: 'B202' }, 木: { name: '情報', room: 'C303' }, 金: { name: '物理', room: 'D404' } },
-            { 火: { name: '電気回路', room: 'E505' }, 水: { name: '体育', room: '体育館' } },
-            {}, {}, {}
-          ]
-        };
-      },
-      methods: {
-        login() {
-          this.loggedIn = true;
-          this.role = this.username.includes('teacher') ? '教員' : '学生';
-        }
-      }
-    }).mount('#app');
-  </script>
+
 <p>
   <a href="irohani.html">いろはに（お笑いサークル）の詳細ページへ</a>
 </p>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>WebClass - あつまれのいろはに大学</title>
   <script src="https://unpkg.com/vue@3"></script>
   <style>
@@ -9,14 +9,59 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
       font-family: "Meiryo", sans-serif;
       background-color: #eef2f5;
     }
     #app {
+      height: 100vh;
+    }
+    .login, .loading {
+      width: 100vw;
+      height: 100vh;
       display: flex;
-      flex-direction: row;
-      height: 100%;
+      align-items: center;
+      justify-content: center;
+      background-color: #eef2f5;
+    }
+    .login-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    .login-box input {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .spinner {
+      margin: 0 auto;
+      border: 6px solid #ccc;
+      border-top: 6px solid #004080;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .app-main {
+      display: flex;
+      height: 100vh;
     }
     aside {
       width: 220px;
@@ -63,6 +108,7 @@
       padding: 1.5rem;
       overflow-y: auto;
       box-sizing: border-box;
+      background-color: #eef2f5;
     }
     .dashboard {
       background-color: white;
@@ -92,64 +138,18 @@
     th {
       background-color: #f0f4f8;
     }
-    .login {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #eef2f5;
-    }
-    .login-box {
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 300px;
-    }
-    .login-box input {
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .login-box button {
-      width: 100%;
-      padding: 0.5rem;
-      background-color: #004080;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .spinner {
-  margin: 0 auto;
-  border: 6px solid #ccc;
-  border-top: 6px solid #004080;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
   </style>
 </head>
 <body>
   <div id="app">
-    <div v-if="loading" class="login">
-  <div class="login-box" style="text-align: center;">
-    <div class="spinner"></div>
-    <p style="margin-top: 1rem;">ログイン中...しばらくお待ちください</p>
-  </div>
-</div>
-    <div v-if="!loggedIn && !loading" class="login">
+    <div v-if="loading" class="loading">
+      <div class="login-box" style="text-align: center;">
+        <div class="spinner"></div>
+        <p style="margin-top: 1rem;">ログイン中...しばらくお待ちください</p>
+      </div>
+    </div>
+
+    <div v-else-if="!loggedIn" class="login">
       <div class="login-box">
         <h2 style="text-align:center; margin-bottom:1rem;">WebClass ログイン</h2>
         <input v-model="username" placeholder="ユーザー名">
@@ -178,7 +178,6 @@
         </header>
         <main>
           <div class="dashboard">
-            
             <div class="section">
               <h2>お知らせ</h2>
               <ul>
@@ -211,18 +210,15 @@
                 </tr>
               </table>
             </div>
-        
-           <div class="section">
-  <div class="section">
-  <h2>講義資料</h2>
-  <ul>
-    <li><a href="irohani.html" target="_blank">📄 いろはに（お笑いサークル）7/10分</a></li>
-    <li><a href="details/johokiso.html" target="_blank">📄 情報処理基礎 第1回スライド</a></li>
-    <li><a href="details/denkikairo.html" target="_blank">📄 電気回路Ⅰ レポート課題</a></li>
-    <li><a href="irohani.html">いろはに（お笑いサークル）の詳細ページへ</a></li> <!-- ← これ追加 -->
-  </ul>
-</div>
-
+            <div class="section">
+              <h2>講義資料</h2>
+              <ul>
+                <li><a href="irohani.html" target="_blank">📄 いろはに（お笑いサークル）7/10分</a></li>
+                <li><a href="details/johokiso.html" target="_blank">📄 情報処理基礎 第1回スライド</a></li>
+                <li><a href="details/denkikairo.html" target="_blank">📄 電気回路Ⅰ レポート課題</a></li>
+                <li><a href="irohani.html">📄 いろはに（お笑いサークル）の詳細ページへ</a></li>
+              </ul>
+            </div>
           </div>
         </main>
       </div>
@@ -230,13 +226,13 @@
   </div>
 
   <script>
-    
+    const { createApp } = Vue;
 
     createApp({
       data() {
         return {
           loggedIn: false,
-          loading: false, 
+          loading: false,
           username: '',
           password: '',
           role: '学生',
@@ -256,48 +252,16 @@
         };
       },
       methods: {
-      login() {
-  this.loading = true;
-  setTimeout(() => {
-    this.loading = false;
-    this.loggedIn = true;
-    this.role = this.username.includes('teacher') ? '教員' : '学生';
-  }, 1500); // ローディング時間（ミリ秒）
-}}
+        login() {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            this.loggedIn = true;
+            this.role = this.username.includes('teacher') ? '教員' : '学生';
+          }, 1500);
+        }
+      }
     }).mount('#app');
   </script>
 </body>
 </html>
-
-            <div class="section">
-              <h2>時間割表</h2>
-              <table>
-                <tr>
-                  <th style="width: 10%;">限/曜日</th>
-                  <th v-for="day in days" :key="day" style="width: 18%;">{{ day }}</th>
-                </tr>
-                <tr v-for="(row, index) in 5" :key="index">
-                  <td style="background-color:#f8f8f8; font-weight:bold;">{{ index + 1 }}限<br>{{ times[index] }}</td>
-                  <td v-for="day in days" :key="day" style="height: 80px; vertical-align: top;">
-                    <div v-if="schedule[index][day]">
-                      <strong>{{ schedule[index][day].name }}</strong><br>
-                      <small>{{ schedule[index][day].room }}</small>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </main>
-      </div>
-    </template>
-  </div>
-
-
-
-<p>
-  <a href="irohani.html">いろはに（お笑いサークル）の詳細ページへ</a>
-</p>
-</body>
-</html>
-

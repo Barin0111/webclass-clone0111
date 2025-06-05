@@ -149,7 +149,7 @@
     <p style="margin-top: 1rem;">ログイン中...しばらくお待ちください</p>
   </div>
 </div>
-    <div v-if="!loggedIn" class="login">
+    <div v-if="!loggedIn && !loading" class="login">
       <div class="login-box">
         <h2 style="text-align:center; margin-bottom:1rem;">WebClass ログイン</h2>
         <input v-model="username" placeholder="ユーザー名">
@@ -158,7 +158,7 @@
       </div>
     </div>
 
-    <template v-else>
+    <div v-else class="app-main">
       <aside>
         <h2>メニュー</h2>
         <ul>
@@ -226,7 +226,7 @@
           </div>
         </main>
       </div>
-    </template>
+    </div>
   </div>
 
   <script>

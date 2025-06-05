@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>WebClass - 宮崎大学風</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Meiryo", sans-serif;
+      background-color: #eef2f5;
+    }
+    #app {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+    }
+    aside {
+      width: 220px;
+      background-color: #003366;
+      color: white;
+      padding: 1rem;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+    aside h2 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    aside ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    aside li {
+      margin-bottom: 1rem;
+    }
+    aside a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    header {
+      background-color: #004080;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+    main {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    .dashboard {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .dashboard h2 {
+      font-size: 1.2rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    th {
+      background-color: #f0f4f8;
+    }
+    .login {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #eef2f5;
+    }
+    .login-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    .login-box input {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div v-if="!loggedIn" class="login">
+      <div class="login-box">
+        <h2 style="text-align:center; margin-bottom:1rem;">WebClass ログイン</h2>
+        <input v-model="username" placeholder="ユーザー名">
+        <input type="password" v-model="password" placeholder="パスワード">
+        <button @click="login">ログイン</button>
+      </div>
+    </div>
+
+    <template v-else>
+      <aside>
+        <h2>メニュー</h2>
+        <ul>
+          <li><a href="#">ポータル</a></li>
+          <li><a href="#">講義一覧</a></li>
+          <li><a href="#">成績</a></li>
+          <li><a href="#">出席状況</a></li>
+          <li><a href="#">教材・資料</a></li>
+          <li><a href="#">設定</a></li>
+          <li><a href="#">ログアウト</a></li>
+        </ul>
+      </aside>
+      <div class="content">
+        <header>
+          <div>WebClass ポータル</div>
+          <div>{{ username }} さん（{{ role }}）</div>
+        </header>
+        <main>
+          <div class="dashboard">
+            
+            <div class="section">
+              <h2>お知らせ</h2>
+              <ul>
+                <li>6月12日：WebClassメンテナンスのお知らせ</li>
+                <li>6月13日：レポート課題の締切リマインド</li>
+              </ul>
+            </div>
+            <div class="section">
+              <h2>本日の予定</h2>
+              <ul>
+                <li>8:40 ～ 数学（A101）</li>
+                <li>10:30 ～ 電気回路（E505）</li>
+              </ul>
+            </div>
+            <div class="section">
+              <h2>時間割表</h2>
+              <table>
+                <tr>
+                  <th style="width: 10%;">限/曜日</th>
+                  <th v-for="day in days" :key="day" style="width: 18%;">{{ day }}</th>
+                </tr>
+                <tr v-for="(row, index) in 5" :key="index">
+                  <td style="background-color:#f8f8f8; font-weight:bold;">{{ index + 1 }}限<br>{{ times[index] }}</td>
+                  <td v-for="day in days" :key="day" style="height: 80px; vertical-align: top;">
+                    <div v-if="schedule[index][day]">
+                      <strong>{{ schedule[index][day].name }}</strong><br>
+                      <small>{{ schedule[index][day].room }}</small>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+        
+           <div class="section">
+  <h2>講義資料</h2>
+  <ul>
+    <li><a href="details/irohani.html" target="_blank">📄 いろはに（お笑いサークル）7/10分</a></li>
+    <li><a href="details/johokiso.html" target="_blank">📄 情報処理基礎 第1回スライド</a></li>
+    <li><a href="details/denkikairo.html" target="_blank">📄 電気回路Ⅰ レポート課題</a></li>
+  </ul>
+</div>
+
+          </div>
+        </main>
+      </div>
+    </template>
+  </div>
+
+  <script>
+    
+
+    createApp({
+      data() {
+        return {
+          loggedIn: false,
+          username: '',
+          password: '',
+          role: '学生',
+          days: ['月', '火', '水', '木', '金'],
+          times: [
+            '8:40～10:10',
+            '10:30～12:00',
+            '13:00～14:30',
+            '14:45～16:15',
+            '16:30～18:00'
+          ],
+          schedule: [
+            { 月: { name: '数学', room: 'A101' }, 火: { name: '英語', room: 'B202' }, 木: { name: '情報', room: 'C303' }, 金: { name: '物理', room: 'D404' } },
+            { 火: { name: '電気回路', room: 'E505' }, 水: { name: '体育', room: '体育館' } },
+            {}, {}, {}
+          ]
+        };
+      },
+      methods: {
+        login() {
+          this.loggedIn = true;
+          this.role = this.username.includes('teacher') ? '教員' : '学生';
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
+
+            <div class="section">
+              <h2>時間割表</h2>
+              <table>
+                <tr>
+                  <th style="width: 10%;">限/曜日</th>
+                  <th v-for="day in days" :key="day" style="width: 18%;">{{ day }}</th>
+                </tr>
+                <tr v-for="(row, index) in 5" :key="index">
+                  <td style="background-color:#f8f8f8; font-weight:bold;">{{ index + 1 }}限<br>{{ times[index] }}</td>
+                  <td v-for="day in days" :key="day" style="height: 80px; vertical-align: top;">
+                    <div v-if="schedule[index][day]">
+                      <strong>{{ schedule[index][day].name }}</strong><br>
+                      <small>{{ schedule[index][day].room }}</small>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </template>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          loggedIn: false,
+          username: '',
+          password: '',
+          role: '学生',
+          days: ['月', '火', '水', '木', '金'],
+          times: [
+            '8:40～10:10',
+            '10:30～12:00',
+            '13:00～14:30',
+            '14:45～16:15',
+            '16:30～18:00'
+          ],
+          schedule: [
+            { 月: { name: '数学', room: 'A101' }, 火: { name: '英語', room: 'B202' }, 木: { name: '情報', room: 'C303' }, 金: { name: '物理', room: 'D404' } },
+            { 火: { name: '電気回路', room: 'E505' }, 水: { name: '体育', room: '体育館' } },
+            {}, {}, {}
+          ]
+        };
+      },
+      methods: {
+        login() {
+          this.loggedIn = true;
+          this.role = this.username.includes('teacher') ? '教員' : '学生';
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>

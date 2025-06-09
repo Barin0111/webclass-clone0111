@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>WebClass - あつまれのいろはに大学</title>
+  <title>WebClass - あつまれのいろはにの大学</title>
   <script src="https://unpkg.com/vue@3"></script>
   <style>
     html, body {
@@ -151,6 +151,8 @@
 
     <div v-else-if="!loggedIn" class="login">
       <div class="login-box">
+        <img src="images/logo.png" alt="いろはに大学ロゴ" style="display:block; margin: 0 auto 1rem auto; width: 100px;">
+
         <h2 style="text-align:center; margin-bottom:1rem;">WebClass ログイン</h2>
         <input v-model="username" placeholder="ユーザー名">
         <input type="password" v-model="password" placeholder="パスワード">

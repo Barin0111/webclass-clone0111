@@ -5,14 +5,14 @@
   <title>WebClass - あつまれのいろはにの大学</title>
   <script src="https://unpkg.com/vue@3"></script>
   <style>
-      /* ロゴ画像用のクラス */
-  .login-logo {
-    display: block;
-    margin: 0 auto 1.5rem auto;
-    width: 80%;       /* ログインボックスの8割くらいに */
-    max-width: 240px; /* 最大幅 */
-    height: auto;     /* 縦横比維持 */
-  }
+.login-logo {
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  max-width: 80%;
+  height: auto;
+  aspect-ratio: auto; /* 元の画像の縦横比を維持（必要に応じて） */
+  object-fit: contain; /* はみ出し防止＋縦横比の維持に保険をかける */
+}
     html, body {
       margin: 0;
       padding: 0;

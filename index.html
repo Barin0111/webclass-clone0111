@@ -8,10 +8,10 @@
 .login-logo {
   display: block;
   margin: 0 auto 1.5rem auto;
-  max-width: 80%;
+  max-width: 720px; /* 240px × 3倍に拡大 */
+  width: 100%;      /* 親要素内でレスポンシブに調整 */
   height: auto;
-  aspect-ratio: auto; /* 元の画像の縦横比を維持（必要に応じて） */
-  object-fit: contain; /* はみ出し防止＋縦横比の維持に保険をかける */
+  object-fit: contain;
 }
     html, body {
       margin: 0;
